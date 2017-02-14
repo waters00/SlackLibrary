@@ -5,7 +5,6 @@ from django.db import models
 
 
 class Reader(models.Model):
-    ID = models.IntegerField(primary_key=True)
     username = models.CharField(max_length=16, unique=True)
     phone = models.IntegerField()
     max_borrowing = models.IntegerField(default=5)
@@ -17,7 +16,7 @@ class Reader(models.Model):
     )
     status = models.IntegerField(
         choices=STATUS_CHOICES,
-        default=-1,
+        default=0,
     )
 
     def __str__(self):
