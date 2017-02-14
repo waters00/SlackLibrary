@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
                 ('date_due_to_returned', models.DateField()),
                 ('date_returned', models.DateField()),
                 ('amount_of_fine', models.FloatField(default=0.0)),
-                ('ISBN', models.ForeignKey(to='Library.Book')),
+                ('ISBN', models.ForeignKey(to='library.Book')),
             ],
         ),
         migrations.CreateModel(
@@ -57,11 +57,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='borrowing',
             name='reader_id',
-            field=models.ForeignKey(to='Library.Reader'),
+            field=models.ForeignKey(to='library.Reader'),
         ),
         migrations.AddField(
             model_name='book',
             name='info',
-            field=models.OneToOneField(to='Library.BookInfo'),
+            field=models.OneToOneField(to='library.BookInfo'),
         ),
     ]

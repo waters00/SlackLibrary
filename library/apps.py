@@ -4,5 +4,5 @@
 from django.apps import AppConfig
 
 
-class LibraryConfig(AppConfig):
-    name = 'Library'
+class libraryConfig(AppConfig):
+    name = 'library'
