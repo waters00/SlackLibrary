@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from django.db import models
 
 
@@ -24,26 +27,20 @@ class Reader(models.Model):
         return unicode(self.__str__())
 
 
-class BookInfo(models.Model):
-    ISBN = models.CharField(max_length=13, primary_key=True)
-
-    description = models.CharField(max_length=1024)
-    price = models.FloatField()
-
-    category = models.CharField(max_length=64)
-    cover = models.ImageField()
-    index = models.CharField(max_length=16)
-    location = models.CharField(max_length=64)
-    quantity = models.IntegerField(default=1)
-
-
 class Book(models.Model):
     ISBN = models.CharField(max_length=13, primary_key=True)
     title = models.CharField(max_length=128)
     author = models.CharField(max_length=32)
     press = models.CharField(max_length=64)
 
-    info = models.OneToOneField(BookInfo)
+    description = models.CharField(max_length=1024)
+    price = models.CharField(max_length=20, null=True)
+
+    category = models.CharField(max_length=64, default=u'文学')
+    cover = models.ImageField(null=True)
+    index = models.CharField(max_length=16, null=True)
+    location = models.CharField(max_length=64, default=u'图书馆1楼')
+    quantity = models.IntegerField(default=1)
 
 
 class Borrowing(models.Model):

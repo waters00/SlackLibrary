@@ -6,6 +6,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django import forms
 
+import json
+
+from models import Book
+
 
 class aForm(forms.Form):
     your_name = forms.CharField(label=u'请输入书名/ISBN/作者名', max_length=100)
