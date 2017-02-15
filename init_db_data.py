@@ -11,6 +11,7 @@ django.setup()
 
 import json
 import random
+import time
 from library.models import Book, Reader
 
 
@@ -109,7 +110,7 @@ def load_books():
     with open('douban-books.json', 'r') as f:
         books = f.readlines()
     books = [json.loads(x) for x in books]
-    print books[0].keys()
+    # print books[0].keys()
     return books
 
 
@@ -119,31 +120,41 @@ def load_covers():
     covers = [json.loads(x) for x in covers]
 
     book_records = Book.objects.all()
+
+    count = 0
     for record in book_records:
         for cover in covers:
             A = record.title
             B = cover['name']
-            if A == B or A in B or B in A:
+            if not record.cover and A == B or A in B or B in A:
                 record.cover = cover['url']
-            record.save()
-            print '--1 cover--'
+                record.save()
+                count += 1
 
-    print covers[0]
+        if count % 20 == 0:
+            print 'add {} covers done.'.format(count)
+
 
 
 def init_book_data():
     books = load_books()
+    count = 0
     for b in books:
         try:
             B = Book.objects.get_or_create(ISBN=b['ISBN'], title=b['name'], author=b['author'], press=b['press'])[0]
             B.description = b['content_description']
             B.price = b['price']
             B.save()
+            count += 1
+
+            if count % 20 == 0:
+                print 'add {} books done.'.format(count)
         except KeyError:
             pass
 
+    load_covers()
+
 
 if __name__ == '__main__':
-    # init_reader_data()
-    # init_book_data()
-    load_covers()
+    init_reader_data()
+    init_book_data()
