@@ -43,7 +43,7 @@ class Book(models.Model):
 
 
 class Borrowing(models.Model):
-    reader_id = models.ForeignKey(Reader)
+    reader = models.ForeignKey(Reader)
     ISBN = models.ForeignKey(Book)
     date_issued = models.DateField()
     date_due_to_returned = models.DateField()
