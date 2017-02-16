@@ -2,10 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Reader(models.Model):
-    username = models.CharField(max_length=16, unique=True)
+    user = models.OneToOneField(User)
+    name = models.CharField(max_length=16, unique=True)
     phone = models.IntegerField(unique=True)
     max_borrowing = models.IntegerField(default=5)
     balance = models.FloatField(default=0.0)
@@ -32,7 +34,7 @@ class Book(models.Model):
     author = models.CharField(max_length=32)
     press = models.CharField(max_length=64)
 
-    description = models.CharField(max_length=1024,default='')
+    description = models.CharField(max_length=1024, default='')
     price = models.CharField(max_length=20, null=True)
 
     category = models.CharField(max_length=64, default=u'文学')

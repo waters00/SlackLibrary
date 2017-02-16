@@ -13,6 +13,7 @@ import json
 import random
 import time
 from library.models import Book, Reader
+from django.contrib.auth.models import User
 
 
 def gen_name():
@@ -100,8 +101,11 @@ def gen_balance():
 
 def init_reader_data():
     for i in range(50):
-        r = Reader.objects.get_or_create(phone=gen_phone())[0]
-        r.username = gen_name()
+        u = User.objects.get_or_create(username=gen_phone())[0]
+        u.set_password('password')
+        u.save()
+
+        r = Reader.objects.get_or_create(user=u, name=gen_name(),phone=int(u.username))[0]
         r.balance = gen_balance()
         r.save()
 
@@ -133,7 +137,6 @@ def load_covers():
 
         if count % 20 == 0:
             print 'add {} covers done.'.format(count)
-
 
 
 def init_book_data():

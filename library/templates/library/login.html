@@ -17,7 +17,7 @@
                             <h2 class="text-danger text-center">用户不存在或密码错误</h2>
                         </div>
                     {% endif %}
-                    <form method="POST" role="form" class="form-horizontal">
+                    <form method="POST" role="form" class="form-horizontal" action="/login/">
                         {% csrf_token %}
                         <h1 class="form-signin-heading text-center">请登陆</h1>
 
