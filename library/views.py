@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 import json
 
-from models import Book
+from models import Book, Reader, User
 
 
 class aForm(forms.Form):
@@ -51,6 +51,38 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'library/login.html', {})
+
+
+def user_register(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/')
+    state = None
+    if request.method == 'POST':
+        password = request.POST.get('password', '')
+        repeat_password = request.POST.get('repeat_password', '')
+        if password == '' or repeat_password == '':
+            state = 'empty'
+        elif password != repeat_password:
+            state = 'repeat_error'
+        else:
+            username = request.POST.get('username', '')
+            name = request.POST.get('name', '')
+            if User.objects.filter(username=username):
+                state = 'user_exist'
+            else:
+                new_user = User.objects.create(username=username)
+                new_user.save()
+                new_reader = Reader.objects.create(user=new_user, name=name, phone=int(username))
+                new_reader.save()
+                state = 'success'
+                auth.login(request, new_user)
+                return HttpResponseRedirect('/')
+
+    context = {
+        'state': state
+    }
+
+    return render(request, 'library/register.html', context)
 
 
 @login_required

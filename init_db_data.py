@@ -105,7 +105,7 @@ def init_reader_data():
         u.set_password('password')
         u.save()
 
-        r = Reader.objects.get_or_create(user=u, name=gen_name(),phone=int(u.username))[0]
+        r = Reader.objects.get_or_create(user=u, name=gen_name(), phone=int(u.username))[0]
         r.balance = gen_balance()
         r.save()
 
