@@ -5,7 +5,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
-from django.contrib.auth import authenticate, login, logout
+from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 
 import json
@@ -15,6 +15,7 @@ from models import Book
 
 class aForm(forms.Form):
     your_name = forms.CharField(label=u'请输入书名/ISBN/作者名', max_length=100)
+
 
 def index(request):
     if request.method == 'POST':
@@ -31,15 +32,17 @@ def index(request):
 
 
 def user_login(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        user = authenticate(username=username, password=password)
+        user = auth.authenticate(username=username, password=password)
 
         if user:
             if user.is_active:
-                login(request, user)
+                auth.login(request, user)
                 return HttpResponseRedirect('/')
             else:
                 return HttpResponse(u'Your account is disabled.')
@@ -51,6 +54,28 @@ def user_login(request):
 
 
 @login_required
+def set_password(request):
+    user = request.user
+    state = None
+    if request.method == 'POST':
+        old_password = request.POST.get('old_password', '')
+        new_password = request.POST.get('new_password', '')
+        repeat_password = request.POST.get('repeat_password', '')
+
+        if user.check_password(old_password):
+            if not new_password:
+                state = 'empty'
+            elif new_password != repeat_password:
+                state = 'repeat_error'
+            else:
+                user.set_password(new_password)
+                user.save()
+                state = 'success'
+
+    return render(request, 'library/set_password.html', {'state': state})
+
+
+@login_required
 def user_logout(request):
-    logout(request)
+    auth.logout(request)
     return HttpResponseRedirect('/')
