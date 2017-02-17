@@ -3,7 +3,7 @@
 
 
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django import forms
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 import json
 
 from models import Book, Reader, User
+from forms import PhotoForm
 
 
 class aForm(forms.Form):
@@ -53,11 +54,14 @@ def user_login(request):
         return render(request, 'library/login.html', {})
 
 
+
+
 def user_register(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/')
     state = None
     if request.method == 'POST':
+        form = PhotoForm(request.POST, request.FILES)
         password = request.POST.get('password', '')
         repeat_password = request.POST.get('repeat_password', '')
         if password == '' or repeat_password == '':
@@ -73,13 +77,24 @@ def user_register(request):
                 new_user = User.objects.create(username=username)
                 new_user.save()
                 new_reader = Reader.objects.create(user=new_user, name=name, phone=int(username))
+                new_reader.photo = request.FILES['photo']
                 new_reader.save()
                 state = 'success'
+
                 auth.login(request, new_user)
-                return HttpResponseRedirect('/')
+                # return HttpResponseRedirect('/')
+
+                context = {
+                    'state': state,
+                    'form': form,
+                }
+                return render(request, 'library/register.html', context)
+
+    form = PhotoForm()
 
     context = {
-        'state': state
+        'state': state,
+        'form': form,
     }
 
     return render(request, 'library/register.html', context)
@@ -111,3 +126,6 @@ def set_password(request):
 def user_logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/')
+
+
+

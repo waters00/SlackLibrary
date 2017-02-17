@@ -11,6 +11,7 @@ class Reader(models.Model):
     phone = models.IntegerField(unique=True)
     max_borrowing = models.IntegerField(default=5)
     balance = models.FloatField(default=0.0)
+    photo = models.ImageField(blank=True, upload_to='image/')
 
     STATUS_CHOICES = (
         (0, 'normal'),
@@ -51,3 +52,4 @@ class Borrowing(models.Model):
     date_due_to_returned = models.DateField()
     date_returned = models.DateField()
     amount_of_fine = models.FloatField(default=0.0)
+

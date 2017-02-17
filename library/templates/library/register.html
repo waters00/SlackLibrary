@@ -29,7 +29,8 @@
                         <h2 class="text-danger text-center">用户已经存在</h2>
                     </div>
                 {% endif %}
-                <form method="POST" role="form" class="form-horizontal">
+                <form method="POST" action="/register/" role="form" class="form-horizontal"
+                      enctype="multipart/form-data">
                     {% csrf_token %}
                     <h1 class="form-signin-heading text-center">请注册</h1>
 
@@ -68,6 +69,13 @@
                         <label for="id_email" class="col-md-3 control-label">电子邮件：</label>
                         <div class="col-md-9">
                             <input type="email" class="form-control" required name="email" id="id_email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_img" class="col-md-3 control-label">头像：</label>
+                        <div class="col-md-9">
+                            {{ form.photo }}
                         </div>
                     </div>
 
