@@ -141,9 +141,26 @@ def book_detail(request):
 
 
 def book_search(request):
+    search_by = request.GET.get('search_by', 'title')
     books = []
-    books = Book.objects.all()[0:50]
+
+    keyword = request.GET.get('keyword', None)
+    if not keyword:
+        return HttpResponseRedirect('/')
+
+    if search_by == u'书名':
+        keyword = request.GET.get('keyword', None)
+        books = Book.objects.filter(title__contains=keyword).order_by('-title')[0:50]
+    elif search_by == u'ISBN':
+        keyword = request.GET.get('keyword', None)
+        books = Book.objects.filter(ISBN__contains=keyword).order_by('-title')[0:50]
+    elif search_by == u'作者':
+        keyword = request.GET.get('keyword', None)
+        books = Book.objects.filter(author__contains=keyword).order_by('-title')[0:50]
+
     context = {
         'books': books,
+        'search_by': search_by,
+        'keyword': keyword,
     }
     return render(request, 'library/search.html', context)
