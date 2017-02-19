@@ -54,8 +54,6 @@ def user_login(request):
         return render(request, 'library/login.html', {})
 
 
-
-
 def user_register(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/')
@@ -128,4 +126,15 @@ def user_logout(request):
     return HttpResponseRedirect('/')
 
 
-
+def book_detail(request):
+    ISBN = request.GET.get('ISBN', None)
+    if not ISBN:
+        return HttpResponse('no this id book')
+    try:
+        book = Book.objects.get(pk=ISBN)
+    except Book.DoesNotExist:
+        return HttpResponse('no this id book')
+    context = {
+        'book': book,
+    }
+    return render(request, 'library/book_detail.html', context)

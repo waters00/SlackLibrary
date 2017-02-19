@@ -1,11 +1,13 @@
 .myJumbotron {
-    background-color: #ADD8E6;
+    background-color: #B0E0E6;
+    margin-bottom: 0;
 }
 
 .navbar-custom {
-    background-color: #229922;
-    color: #229922;
+    background-color: #008080;
+    /*color: ‎#696969;*/
     border-radius: 0;
+    margin-bottom: 0;
 }
 
 .navbar-custom .navbar-nav > li > a {
