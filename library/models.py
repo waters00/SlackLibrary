@@ -50,6 +50,6 @@ class Borrowing(models.Model):
     ISBN = models.ForeignKey(Book)
     date_issued = models.DateField()
     date_due_to_returned = models.DateField()
-    date_returned = models.DateField()
+    date_returned = models.DateField(null=True)
     amount_of_fine = models.FloatField(default=0.0)
 

@@ -13,13 +13,30 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-md-offset-1">
-                    <h2 class="text-center">姓名:{{reader.name }}</h2>
+                    <h2 class="text-center">姓名:{{ reader.name }}</h2>
                     <br>
                     <h4>电话：{{ reader.phone }}</h4>
                     <h4>余额：{{ reader.balance }}</h4>
                     <h4>可借数量：{{ reader.max_borrowing }}</h4>
                     <hr>
-                    <hr>
+                    <table class="table table-bordered">
+                        <thead>
+                        <th>正在借阅:</th>
+                        <th>应还日期：</th>
+                        <th></th>
+                        </thead>
+                        <tbody>
+                        {% for b in borrowing %}
+                            <tr>
+                                <td><h4>{{ b.ISBN.title }}</h4></td>
+                                <td><h4>{{ b.date_due_to_returned|date:'Y-m-d' }}</h4></td>
+                                <td><button class="btn btn-primary">续借</button></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <ul>
+                    </ul>
                 </div>
             </div>
         </div>

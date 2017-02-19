@@ -11,8 +11,9 @@ django.setup()
 
 import json
 import random
+import datetime
 import time
-from library.models import Book, Reader
+from library.models import Book, Reader, Borrowing
 from django.contrib.auth.models import User
 
 
@@ -158,6 +159,23 @@ def init_book_data():
     load_covers()
 
 
+def init_borrowing_data():
+    for i in range(50):
+        reader = Reader.objects.get(pk=random.randint(1, 50))
+        isbn = Book.objects.all()[random.randint(1, 200)]
+        issued = datetime.date.today() + datetime.timedelta(random.randint(1, 30))
+        due_to_returned = issued + datetime.timedelta(30)
+
+        b = Borrowing.objects.create(
+            reader=reader,
+            ISBN=isbn,
+            date_issued=issued,
+            date_due_to_returned=due_to_returned)
+
+        b.save()
+
+
 if __name__ == '__main__':
-    init_reader_data()
-    init_book_data()
+    # init_reader_data()
+    # init_book_data()
+    init_borrowing_data()

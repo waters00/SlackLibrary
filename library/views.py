@@ -11,7 +11,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import json
 
-from models import Book, Reader, User
+from models import Book, Reader, User, Borrowing
 from forms import PhotoForm
 
 
@@ -148,8 +148,12 @@ def profile(request):
         reader = Reader.objects.get(user_id=id)
     except Reader.DoesNotExist:
         return HttpResponse('no this id book')
+
+    borrowing = Borrowing.objects.filter(reader=reader).all()
+
     context = {
         'reader': reader,
+        'borrowing': borrowing,
     }
     return render(request, 'library/profile.html', context)
 
