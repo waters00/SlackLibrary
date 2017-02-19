@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidde
 from django import forms
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import json
 
@@ -141,8 +142,9 @@ def book_detail(request):
 
 
 def book_search(request):
-    search_by = request.GET.get('search_by', 'title')
+    search_by = request.GET.get('search_by', '书名')
     books = []
+    current_path=request.get_full_path()
 
     keyword = request.GET.get('keyword', None)
     if not keyword:
@@ -158,9 +160,22 @@ def book_search(request):
         keyword = request.GET.get('keyword', None)
         books = Book.objects.filter(author__contains=keyword).order_by('-title')[0:50]
 
+    paginator = Paginator(books, 5)
+    page = request.GET.get('page', 1)
+
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+
+    print current_path
+
     context = {
         'books': books,
         'search_by': search_by,
         'keyword': keyword,
+        'current_path': current_path,
     }
     return render(request, 'library/search.html', context)

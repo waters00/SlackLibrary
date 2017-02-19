@@ -62,6 +62,26 @@
             {% endfor %}
             </tbody>
         </table>
+
+        <nav>
+            <ul class="pager">
+                {% if books.has_previous %}
+                    <li class="previous"><a
+                            href="{{current_path}}&page={{ books.previous_page_number }}">上一页</a>
+                    </li>
+                {% else %}
+                    <li class="previous disabled"><a href="#">上一页</a></li>
+                {% endif %}
+                第 {{ books.number }} / {{ books.paginator.num_pages }}页
+                {% if books.has_next %}
+                    <li class="next"><a
+                            href="{{current_path}}&page={{ books.next_page_number }}">下一页</a>
+                    </li>
+                {% else %}
+                    <li class="next disabled"><a href="#">下一页</a></li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
 
 {% endblock %}
