@@ -130,21 +130,34 @@ def user_logout(request):
 def book_detail(request):
     ISBN = request.GET.get('ISBN', None)
     if not ISBN:
-        return HttpResponse('no this id book')
+        return HttpResponse('there is no such an ISBN')
     try:
         book = Book.objects.get(pk=ISBN)
     except Book.DoesNotExist:
-        return HttpResponse('no this id book')
+        return HttpResponse('there is no such an ISBN')
     context = {
         'book': book,
     }
     return render(request, 'library/book_detail.html', context)
 
 
+@login_required
+def profile(request):
+    id = request.user.id
+    try:
+        reader = Reader.objects.get(user_id=id)
+    except Reader.DoesNotExist:
+        return HttpResponse('no this id book')
+    context = {
+        'reader': reader,
+    }
+    return render(request, 'library/profile.html', context)
+
+
 def book_search(request):
     search_by = request.GET.get('search_by', '书名')
     books = []
-    current_path=request.get_full_path()
+    current_path = request.get_full_path()
 
     keyword = request.GET.get('keyword', None)
     if not keyword:

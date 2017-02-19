@@ -1,0 +1,28 @@
+{% extends "library/base.html" %}
+{% load staticfiles %}
+{% block title %}查看读者信息{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-5">
+                    <div class="img-rounded">
+                        <img src="/media/{{ reader.photo }}" alt="暂无图片">
+                    </div>
+                </div>
+                <div class="col-md-6 col-md-offset-1">
+                    <h2 class="text-center">姓名:{{reader.name }}</h2>
+                    <br>
+                    <h4>电话：{{ reader.phone }}</h4>
+                    <h4>余额：{{ reader.balance }}</h4>
+                    <h4>可借数量：{{ reader.max_borrowing }}</h4>
+                    <hr>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
