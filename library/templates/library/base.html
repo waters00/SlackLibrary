@@ -9,8 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'library/bootstrap/css/bootstrap.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'library/custom.css' %}"/>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    {% block title %}
-    {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -62,7 +61,7 @@
                     <li><a href="#">Link</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">用户 {{' '}} {{ user.username }}<span class="caret"></span></a>
+                           aria-expanded="false">用户 {{ ' ' }} {{ user.username }}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">个人信息</a></li>
                             <li><a href="#">正在借阅</a></li>

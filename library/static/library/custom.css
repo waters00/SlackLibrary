@@ -35,3 +35,12 @@
 .navbar-custom .icon-bar {
     background-color: #33aa33;
 }
+
+.bookcover_img {
+	border: none;
+	width: 90px;
+
+	-moz-box-shadow:1px 1px 5px #333333;
+	-webkit-box-shadow:1px 1px 5px #333333;
+	box-shadow: 1px 1px 5px #333333;
+}

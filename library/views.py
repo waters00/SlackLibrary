@@ -138,3 +138,12 @@ def book_detail(request):
         'book': book,
     }
     return render(request, 'library/book_detail.html', context)
+
+
+def book_search(request):
+    books = []
+    books = Book.objects.all()[0:50]
+    context = {
+        'books': books,
+    }
+    return render(request, 'library/search.html', context)

@@ -16,4 +16,5 @@ urlpatterns = [
                   url(r'^set_password/', views.set_password, name='set_password'),
                   url(r'^static/(?P<path>.*)$', static_views.serve, name='static'),
                   url(r'^book/detail$', views.book_detail, name='book_detail'),
+                  url(r'^search/', views.book_search, name='book_search'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
