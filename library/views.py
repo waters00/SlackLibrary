@@ -141,7 +141,7 @@ def profile(request):
     borrowing = Borrowing.objects.filter(reader=reader).exclude(date_returned__isnull=False)
 
     context = {
-        'state': request.GET.get('state',None),
+        'state': request.GET.get('state', None),
         'reader': reader,
         'borrowing': borrowing,
     }
@@ -267,3 +267,7 @@ def book_detail(request):
         'book': book,
     }
     return render(request, 'library/book_detail.html', context)
+
+
+def about(request):
+    return render(request, 'library/about.html', {})

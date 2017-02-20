@@ -19,4 +19,5 @@ urlpatterns = [
                   url(r'^book/action$', views.reader_operation, name='reader_operation'),
                   url(r'^search/', views.book_search, name='book_search'),
                   url(r'^profile/', views.profile, name='profile'),
+                  url(r'^about/', views.about, name='about'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

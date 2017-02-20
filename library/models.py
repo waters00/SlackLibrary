@@ -23,7 +23,7 @@ class Reader(models.Model):
     )
 
     def __str__(self):
-        return self.username
+        return self.name
 
     def __unicode__(self):
         return unicode(self.__str__())
