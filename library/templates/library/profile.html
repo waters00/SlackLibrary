@@ -23,7 +23,6 @@
                         <thead>
                         <th>正在借阅:</th>
                         <th>应还日期：</th>
-                        <th></th>
                         </thead>
                         <tbody>
                         {% for b in borrowing %}
@@ -31,6 +30,7 @@
                                 <td><h4>{{ b.ISBN.title }}</h4></td>
                                 <td><h4>{{ b.date_due_to_returned|date:'Y-m-d' }}</h4></td>
                                 <td><button class="btn btn-primary">续借</button></td>
+                                <td><button class="btn btn-primary">归还</button></td>
                             </tr>
                         {% endfor %}
                         </tbody>

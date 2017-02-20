@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import datetime
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
@@ -127,22 +128,10 @@ def user_logout(request):
     return HttpResponseRedirect('/')
 
 
-def book_detail(request):
-    ISBN = request.GET.get('ISBN', None)
-    if not ISBN:
-        return HttpResponse('there is no such an ISBN')
-    try:
-        book = Book.objects.get(pk=ISBN)
-    except Book.DoesNotExist:
-        return HttpResponse('there is no such an ISBN')
-    context = {
-        'book': book,
-    }
-    return render(request, 'library/book_detail.html', context)
-
-
-@login_required
 def profile(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login')
+
     id = request.user.id
     try:
         reader = Reader.objects.get(user_id=id)
@@ -196,3 +185,48 @@ def book_search(request):
         'current_path': current_path,
     }
     return render(request, 'library/search.html', context)
+
+
+def book_detail(request):
+    ISBN = request.GET.get('ISBN', None)
+    print ISBN
+    if not ISBN:
+        return HttpResponse('there is no such an ISBN')
+    try:
+        book = Book.objects.get(pk=ISBN)
+    except Book.DoesNotExist:
+        return HttpResponse('there is no such an ISBN')
+
+    action = request.GET.get('action', None)
+    state = None
+
+    if action == 'borrow':
+
+        if not request.user.is_authenticated():
+            state = 'no_user'
+        else:
+            reader = Reader.objects.get(user_id=request.user.id)
+            if reader.max_borrowing > 0:
+                reader.max_borrowing -= 1
+                reader.save()
+
+                isbn = Book.objects.get(pk=ISBN)
+                issued = datetime.date.today()
+                due_to_returned = issued + datetime.timedelta(30)
+
+                b = Borrowing.objects.create(
+                    reader=reader,
+                    ISBN=isbn,
+                    date_issued=issued,
+                    date_due_to_returned=due_to_returned)
+
+                b.save()
+                state = 'success'
+            else:
+                state = 'upper_limit'
+
+    context = {
+        'state': state,
+        'book': book,
+    }
+    return render(request, 'library/book_detail.html', context)
