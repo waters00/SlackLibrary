@@ -161,18 +161,24 @@ def init_book_data():
 
 def init_borrowing_data():
     for i in range(50):
-        reader = Reader.objects.get(pk=random.randint(1, 50))
+        try:
+            reader = Reader.objects.get(pk=random.randint(1, 50))
+        except Reader.DoesNotExist:
+            pass
         isbn = Book.objects.all()[random.randint(1, 200)]
         issued = datetime.date.today() + datetime.timedelta(random.randint(1, 30))
         due_to_returned = issued + datetime.timedelta(30)
 
-        b = Borrowing.objects.create(
-            reader=reader,
-            ISBN=isbn,
-            date_issued=issued,
-            date_due_to_returned=due_to_returned)
+        if reader.max_borrowing > 0:
+            b = Borrowing.objects.create(
+                reader=reader,
+                ISBN=isbn,
+                date_issued=issued,
+                date_due_to_returned=due_to_returned)
 
-        b.save()
+            reader.max_borrowing -= 1
+            reader.save()
+            b.save()
 
 
 if __name__ == '__main__':
