@@ -16,21 +16,6 @@
         {% endif %}
     </div>
 
-    <div class="alert alert-info text-center">
-        <p id="countDown">5</p>秒后跳转
-    </div>
-
-    <script>
-        var count = 5;
-        setInterval(function () {
-            count--;
-            document.getElementById('countDown').innerHTML = count;
-            if (count == 0) {
-                window.location = '../profile/';
-            }
-        }, 1000);
-
-    </script>
 
     <div class="container">
         <div class="row">

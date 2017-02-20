@@ -136,15 +136,51 @@ def profile(request):
     try:
         reader = Reader.objects.get(user_id=id)
     except Reader.DoesNotExist:
-        return HttpResponse('no this id book')
+        return HttpResponse('no this id reader')
 
-    borrowing = Borrowing.objects.filter(reader=reader).all()
+    borrowing = Borrowing.objects.filter(reader=reader).exclude(date_returned__isnull=False)
 
     context = {
+        'state': request.GET.get('state',None),
         'reader': reader,
         'borrowing': borrowing,
     }
     return render(request, 'library/profile.html', context)
+
+
+def reader_operation(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login')
+
+    action = request.GET.get('action', None)
+
+    if action == 'return_book':
+        id = request.GET.get('id', None)
+        if not id:
+            return HttpResponse('no id')
+        b = Borrowing.objects.get(pk=id)
+        b.date_returned = datetime.date.today()
+        if b.date_returned > b.date_due_to_returned:
+            b.amount_of_fine = (b.date_returned - b.date_due_to_returned).total_seconds() / 24 / 3600 * 0.1
+        b.save()
+
+        r = Reader.objects.get(user=request.user)
+        r.max_borrowing += 1
+        r.save()
+        return HttpResponseRedirect('/profile?state=return_success')
+
+    elif action == 'renew_book':
+        id = request.GET.get('id', None)
+        if not id:
+            return HttpResponse('no id')
+        b = Borrowing.objects.get(pk=id)
+        if (b.date_due_to_returned - b.date_issued) < datetime.timedelta(60):
+            b.date_due_to_returned += datetime.timedelta(30)
+            b.save()
+
+        return HttpResponseRedirect('/profile?state=renew_success')
+
+    return HttpResponseRedirect('/profile')
 
 
 def book_search(request):
@@ -222,6 +258,7 @@ def book_detail(request):
 
                 b.save()
                 state = 'success'
+                return HttpResponseRedirect('/profile?state=borrow_success')
             else:
                 state = 'upper_limit'
 

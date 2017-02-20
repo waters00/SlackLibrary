@@ -4,6 +4,16 @@
 
 {% block content %}
 
+    <div class="col-md-8 col-md-offset-2">
+        {% if state == 'renew_success' %}
+            <div class="alert alert-success text-center" role="alert">续借成功</div>
+        {% elif state == 'return_success' %}
+            <div class="alert alert-success text-center" role="alert">还书成功</div>
+        {% elif state == 'borrow_success' %}
+            <div class="alert alert-success text-center" role="alert">借书成功</div>
+        {% endif %}
+    </div>
+
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -29,8 +39,17 @@
                             <tr>
                                 <td><h4>{{ b.ISBN.title }}</h4></td>
                                 <td><h4>{{ b.date_due_to_returned|date:'Y-m-d' }}</h4></td>
-                                <td><button class="btn btn-primary">续借</button></td>
-                                <td><button class="btn btn-primary">归还</button></td>
+                                <td>
+                                    <button class="btn btn-primary"
+                                            onclick="location.href='../book/action?action=renew_book&id={{ b.id }}';">续借
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary"
+                                            onclick="location.href='../book/action?action=return_book&id={{ b.id }}';">
+                                        还书
+                                    </button>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
