@@ -13,7 +13,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 
 from models import Book, Reader, User, Borrowing
-from forms import PhotoForm, SearchForm, SearchByForm, LoginForm
+from forms import PhotoForm, SearchForm, LoginForm
 
 
 class aForm(forms.Form):
@@ -29,7 +29,6 @@ def index(request):
         form = aForm()
 
     context = {
-        'searchByForm': SearchByForm(),
         'searchForm': SearchForm(),
     }
     return render(request, 'library/index.html', context)

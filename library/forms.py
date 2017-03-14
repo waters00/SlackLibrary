@@ -29,7 +29,9 @@ class PhotoForm(forms.Form):
     photo = forms.FileField(label=u'头像')
 
 
-class SearchByForm(forms.Form):
+
+
+class SearchForm(forms.Form):
     CHOICES = [
         (u'ISBN', u'ISBN'),
         (u'书名', u'书名'),
@@ -43,8 +45,6 @@ class SearchByForm(forms.Form):
         initial=u'书名',
     )
 
-
-class SearchForm(forms.Form):
     keyword = forms.CharField(
         label='',
         max_length=32,
