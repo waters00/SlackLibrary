@@ -13,7 +13,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 
 from models import Book, Reader, User, Borrowing
-from forms import PhotoForm, SearchForm, SearchByForm
+from forms import PhotoForm, SearchForm, SearchByForm, LoginForm
 
 
 class aForm(forms.Form):
@@ -33,8 +33,6 @@ def index(request):
         'searchForm': SearchForm(),
     }
     return render(request, 'library/index.html', context)
-
-#http://localhost:8000/search/?search_by=%E4%B9%A6%E5%90%8D&keyword=%E6%88%91&page=2
 
 
 def user_login(request):
@@ -56,7 +54,7 @@ def user_login(request):
             print "Invalid login details: {0}, {1}".format(username, password)
             return HttpResponse("Invalid login details supplied.")
     else:
-        return render(request, 'library/login.html', {})
+        return render(request, 'library/login.html', {'loginForm': LoginForm()})
 
 
 def user_register(request):

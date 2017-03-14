@@ -5,8 +5,24 @@ from django import forms
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=16)
-    password = forms.CharField(widget=forms.PasswordInput())
+    username = forms.CharField(
+        max_length=16,
+        label=u'用户名：',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'name': 'username',
+            'id': 'id_username',
+        })
+    )
+    password = forms.CharField(
+        label=u'密码：',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'type': 'password',
+            'name': 'password',
+            'id': 'id_password',
+        })
+    )
 
 
 class PhotoForm(forms.Form):
