@@ -13,21 +13,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 
 from models import Book, Reader, User, Borrowing
-from forms import PhotoForm, SearchForm, LoginForm
-
-
-class aForm(forms.Form):
-    your_name = forms.CharField(label=u'请输入书名/ISBN/作者名', max_length=100)
+from forms import PhotoForm, SearchForm, LoginForm, ResetPasswordForm
 
 
 def index(request):
-    if request.method == 'POST':
-        form = aForm(request.POST)
-        if form.is_valid():
-            return HttpResponse(u'书不存在')
-    else:
-        form = aForm()
-
     context = {
         'searchForm': SearchForm(),
     }
@@ -95,6 +84,7 @@ def user_register(request):
     context = {
         'state': state,
         'form': form,
+        'resetPasswordForm': ResetPasswordForm(),
     }
 
     return render(request, 'library/register.html', context)
@@ -119,7 +109,11 @@ def set_password(request):
                 user.save()
                 state = 'success'
 
-    return render(request, 'library/set_password.html', {'state': state})
+    context = {
+        'state': state,
+    }
+
+    return render(request, 'library/set_password.html', context)
 
 
 @login_required

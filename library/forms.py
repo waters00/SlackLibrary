@@ -21,14 +21,56 @@ class LoginForm(forms.Form):
             'type': 'password',
             'name': 'password',
             'id': 'id_password',
-        })
+        }),
+    )
+
+
+class ResetPasswordForm(forms.Form):
+    username = forms.CharField(
+        label=u'用户名/手机号码：',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'name': 'username',
+            'id': 'id_username',
+        }),
+    )
+    name = forms.CharField(
+        label=u'名字：',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'name': 'name',
+            'id': 'id_name',
+        }),
+    )
+    password = forms.CharField(
+        label=u'密码：',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'name': 'password',
+            'id': 'id_password',
+        }),
+    )
+    re_password = forms.CharField(
+        label=u'重复密码：',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'type':'password',
+            'name': 're_password',
+            'id': 'id_re_password',
+        }),
+    )
+    email = forms.CharField(
+        label=u'电子邮件：',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'name': 'email',
+            'id': 'id_email',
+        }),
     )
 
 
 class PhotoForm(forms.Form):
     photo = forms.FileField(label=u'头像')
-
-
 
 
 class SearchForm(forms.Form):
