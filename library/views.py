@@ -208,13 +208,8 @@ def book_search(request):
         books = paginator.page(paginator.num_pages)
 
     # ugly solution for &page=2&page=3&page=4
-    if 'page' in current_path:
-
-        tmp = current_path.split('&page')
-        print tmp
-        print tmp[0]
-        print tmp[-1]
-        current_path = tmp[0]
+    if '&page' in current_path:
+        current_path = current_path.split('&page')[0]
 
     context = {
         'books': books,
