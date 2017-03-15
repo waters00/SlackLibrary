@@ -13,7 +13,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 
 from models import Book, Reader, User, Borrowing
-from forms import PhotoForm, SearchForm, LoginForm, RegisterForm, ResetPasswordForm
+from forms import SearchForm, LoginForm, RegisterForm, ResetPasswordForm
 
 
 def index(request):
@@ -26,6 +26,9 @@ def index(request):
 def user_login(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/')
+
+    state = None
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -39,18 +42,25 @@ def user_login(request):
             else:
                 return HttpResponse(u'Your account is disabled.')
         else:
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
-    else:
-        return render(request, 'library/login.html', {'loginForm': LoginForm()})
+            state = 'not_exist_or_password_error'
+
+    context = {
+        'loginForm': LoginForm(),
+        'state': state,
+    }
+
+    return render(request, 'library/login.html', context)
 
 
 def user_register(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/')
+
+    registerForm = RegisterForm()
+
     state = None
     if request.method == 'POST':
-        form = PhotoForm(request.POST, request.FILES)
+        registerForm = RegisterForm(request.POST, request.FILES)
         password = request.POST.get('password', '')
         repeat_password = request.POST.get('repeat_password', '')
         if password == '' or repeat_password == '':
@@ -71,20 +81,16 @@ def user_register(request):
                 state = 'success'
 
                 auth.login(request, new_user)
-                # return HttpResponseRedirect('/')
 
                 context = {
                     'state': state,
-                    'form': form,
+                    'registerForm': registerForm,
                 }
                 return render(request, 'library/register.html', context)
 
-    form = PhotoForm()
-
     context = {
         'state': state,
-        'form': form,
-        'registerForm': RegisterForm(),
+        'registerForm': registerForm,
     }
 
     return render(request, 'library/register.html', context)

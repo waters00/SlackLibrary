@@ -6,15 +6,20 @@
 
 {% block content %}
 
-    <div class="col-md-8 col-md-offset-2">
-        {% if state == 'no_user' %}
-            <div class="alert alert-warning text-center" role="alert">请登陆</div>
-        {% elif state == 'upper_limit' %}
-            <div class="alert alert-warning text-center" role="alert">对不起，您借书数量已经达到上线</div>
-        {% elif state == 'success' %}
-            <div class="alert alert-success text-center" role="alert">借阅成功</div>
-        {% endif %}
-    </div>
+    {% if state %}
+        <div class="col-lg-4 col-md-offset-4">
+            <div class="alert alert-warning">
+                <a href="/login" class="close" data-dismiss="alert">&times;</a>
+                {% if state == 'no_user' %}
+                    <h2>请登陆</h2>
+                {% elif state == 'upper_limit' %}
+                    <h2> 对不起，您借书数量已经达到上线</h2>
+                {% elif state == 'success' %}
+                    <h2>借阅成功</h2>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
 
 
     <div class="container myContainer">

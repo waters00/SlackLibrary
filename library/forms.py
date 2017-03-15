@@ -66,8 +66,18 @@ class RegisterForm(forms.Form):
             'name': 'email',
             'id': 'id_email',
         }),
+        required=False,
     )
 
+    photo = forms.FileField(
+        label=u'头像：',
+        widget=forms.FileInput(attrs={
+            'class': 'form-control',
+            'name': 'photo',
+            'id': 'id_photo',
+        }),
+        required=False,
+    )
 
 class ResetPasswordForm(forms.Form):
     old_password = forms.CharField(
@@ -95,31 +105,26 @@ class ResetPasswordForm(forms.Form):
         }),
     )
 
-
-class PhotoForm(forms.Form):
-    photo = forms.FileField(label=u'头像')
-
-
 class SearchForm(forms.Form):
-    CHOICES = [
-        (u'ISBN', u'ISBN'),
-        (u'书名', u'书名'),
-        (u'作者', u'作者')
-    ]
+        CHOICES = [
+            (u'ISBN', u'ISBN'),
+            (u'书名', u'书名'),
+            (u'作者', u'作者')
+        ]
 
-    search_by = forms.ChoiceField(
-        label='',
-        choices=CHOICES,
-        widget=forms.RadioSelect(),
-        initial=u'书名',
-    )
+        search_by = forms.ChoiceField(
+            label='',
+            choices=CHOICES,
+            widget=forms.RadioSelect(),
+            initial=u'书名',
+        )
 
-    keyword = forms.CharField(
-        label='',
-        max_length=32,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control input-lg',
-            'placeholder': u'请输入需要检索的图书信息',
-            'name': 'keyword',
-        })
-    )
+        keyword = forms.CharField(
+            label='',
+            max_length=32,
+            widget=forms.TextInput(attrs={
+                'class': 'form-control input-lg',
+                'placeholder': u'请输入需要检索的图书信息',
+                'name': 'keyword',
+            })
+        )
