@@ -223,6 +223,7 @@ def book_search(request):
         'search_by': search_by,
         'keyword': keyword,
         'current_path': current_path,
+        'searchForm':SearchForm(),
     }
     return render(request, 'library/search.html', context)
 
