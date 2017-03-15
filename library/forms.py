@@ -25,7 +25,7 @@ class LoginForm(forms.Form):
     )
 
 
-class ResetPasswordForm(forms.Form):
+class RegisterForm(forms.Form):
     username = forms.CharField(
         label=u'用户名/手机号码：',
         widget=forms.TextInput(attrs={
@@ -54,7 +54,7 @@ class ResetPasswordForm(forms.Form):
         label=u'重复密码：',
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'type':'password',
+            'type': 'password',
             'name': 're_password',
             'id': 'id_re_password',
         }),
@@ -65,6 +65,33 @@ class ResetPasswordForm(forms.Form):
             'class': 'form-control',
             'name': 'email',
             'id': 'id_email',
+        }),
+    )
+
+
+class ResetPasswordForm(forms.Form):
+    old_password = forms.CharField(
+        label=u'原始密码：',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'name': 'old_password',
+            'id': 'id_old',
+        }),
+    )
+    new_password = forms.CharField(
+        label=u'新密码：',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'name': 'new_password',
+            'id': 'id_new',
+        }),
+    )
+    repeat_password = forms.CharField(
+        label=u'重复密码：',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'name': 'repeat_password',
+            'id': 'id_repeat',
         }),
     )
 

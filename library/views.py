@@ -13,7 +13,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 
 from models import Book, Reader, User, Borrowing
-from forms import PhotoForm, SearchForm, LoginForm, ResetPasswordForm
+from forms import PhotoForm, SearchForm, LoginForm, RegisterForm, ResetPasswordForm
 
 
 def index(request):
@@ -84,7 +84,7 @@ def user_register(request):
     context = {
         'state': state,
         'form': form,
-        'resetPasswordForm': ResetPasswordForm(),
+        'registerForm': RegisterForm(),
     }
 
     return render(request, 'library/register.html', context)
@@ -111,6 +111,7 @@ def set_password(request):
 
     context = {
         'state': state,
+        'resetPasswordForm': ResetPasswordForm(),
     }
 
     return render(request, 'library/set_password.html', context)
@@ -206,7 +207,14 @@ def book_search(request):
     except EmptyPage:
         books = paginator.page(paginator.num_pages)
 
-    print current_path
+    # ugly solution for &page=2&page=3&page=4
+    if 'page' in current_path:
+
+        tmp = current_path.split('&page')
+        print tmp
+        print tmp[0]
+        print tmp[-1]
+        current_path = tmp[0]
 
     context = {
         'books': books,
