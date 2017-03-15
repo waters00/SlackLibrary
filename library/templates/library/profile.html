@@ -4,21 +4,27 @@
 
 {% block content %}
 
-    <div class="col-md-8 col-md-offset-2">
-        {% if state == 'renew_success' %}
-            <div class="alert alert-success text-center" role="alert">续借成功</div>
-        {% elif state == 'return_success' %}
-            <div class="alert alert-success text-center" role="alert">还书成功</div>
-        {% elif state == 'borrow_success' %}
-            <div class="alert alert-success text-center" role="alert">借书成功</div>
-        {% endif %}
-    </div>
+    {% if state %}
+        <div class="col-md-2 col-md-offset-6">
+            <div class="alert alert-warning">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                {% if state == 'renew_success' %}
+                    续借成功
+                {% elif state == 'return_success' %}
+                    还书成功
+                {% elif state == 'borrow_success' %}
+                    借书成功
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
 
-    <div class="container">
+
+    <div class="container myContainer">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="col-md-5">
-                    <div class="img-rounded">
+                    <div class="img-rounded profile-photo">
                         <img src="/media/{{ reader.photo }}" alt="暂无图片">
                     </div>
                 </div>
