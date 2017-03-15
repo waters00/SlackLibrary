@@ -183,19 +183,20 @@ def book_search(request):
     books = []
     current_path = request.get_full_path()
 
-    keyword = request.GET.get('keyword', None)
-    if not keyword:
-        return HttpResponseRedirect('/')
+    keyword = request.GET.get('keyword', u'_书目列表')
 
-    if search_by == u'书名':
-        keyword = request.GET.get('keyword', None)
-        books = Book.objects.filter(title__contains=keyword).order_by('-title')[0:50]
-    elif search_by == u'ISBN':
-        keyword = request.GET.get('keyword', None)
-        books = Book.objects.filter(ISBN__contains=keyword).order_by('-title')[0:50]
-    elif search_by == u'作者':
-        keyword = request.GET.get('keyword', None)
-        books = Book.objects.filter(author__contains=keyword).order_by('-title')[0:50]
+    if keyword == u'_书目列表':
+        books = Book.objects.all()
+    else:
+        if search_by == u'书名':
+            keyword = request.GET.get('keyword', None)
+            books = Book.objects.filter(title__contains=keyword).order_by('-title')[0:50]
+        elif search_by == u'ISBN':
+            keyword = request.GET.get('keyword', None)
+            books = Book.objects.filter(ISBN__contains=keyword).order_by('-title')[0:50]
+        elif search_by == u'作者':
+            keyword = request.GET.get('keyword', None)
+            books = Book.objects.filter(author__contains=keyword).order_by('-title')[0:50]
 
     paginator = Paginator(books, 5)
     page = request.GET.get('page', 1)
