@@ -21,6 +21,16 @@
         </div>
     {% endif %}
 
+    {% if book.quantity == 0 %}
+        <div class="col-lg-4 col-md-offset-4">
+            <div class="alert alert-warning">
+                <a href="/search/" class="close" data-dismiss="alert">&times;</a>
+                    <h2> 对不起，此书已全部借出</h2>
+            </div>
+        </div>
+
+    {% endif %}
+
 
     <div class="container myContainer">
         <div class="row">
@@ -31,9 +41,15 @@
                     </div>
                     <br><br><br>
                     <div class="col-lg-5">
-                        <button class="btn btn-primary btn-lg"
-                                onclick="location.href='detail'+'?ISBN={{ book.ISBN }}&action=borrow';">借阅
-                        </button>
+                        {% if book.quantity > 1 %}
+                            <button class="btn btn-primary btn-lg"
+                                    onclick="location.href='detail'+'?ISBN={{ book.ISBN }}&action=borrow';">借阅
+                            </button>
+                        {% else %}
+                            <button class="btn btn-primary btn-lg disabled">
+                            借阅
+                            </button>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-md-6 col-md-offset-1">

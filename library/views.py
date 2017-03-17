@@ -168,6 +168,11 @@ def reader_operation(request):
         r = Reader.objects.get(user=request.user)
         r.max_borrowing += 1
         r.save()
+
+        bk = Book.objects.get(ISBN=b.ISBN_id)
+        bk.quantity += 1
+        bk.save()
+
         return HttpResponseRedirect('/profile?state=return_success')
 
     elif action == 'renew_book':
@@ -223,7 +228,7 @@ def book_search(request):
         'search_by': search_by,
         'keyword': keyword,
         'current_path': current_path,
-        'searchForm':SearchForm(),
+        'searchForm': SearchForm(),
     }
     return render(request, 'library/search.html', context)
 
@@ -251,13 +256,16 @@ def book_detail(request):
                 reader.max_borrowing -= 1
                 reader.save()
 
-                isbn = Book.objects.get(pk=ISBN)
+                bk = Book.objects.get(pk=ISBN)
+                bk.quantity-=1
+                bk.save()
+
                 issued = datetime.date.today()
                 due_to_returned = issued + datetime.timedelta(30)
 
                 b = Borrowing.objects.create(
                     reader=reader,
-                    ISBN=isbn,
+                    ISBN=bk,
                     date_issued=issued,
                     date_due_to_returned=due_to_returned)
 

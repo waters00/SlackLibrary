@@ -148,6 +148,7 @@ def init_book_data():
             B = Book.objects.get_or_create(ISBN=b['ISBN'], title=b['name'], author=b['author'], press=b['press'])[0]
             B.description = b['content_description']
             B.price = b['price']
+            B.quantity = random.randint(0, 7)
             B.save()
             count += 1
 
@@ -183,5 +184,5 @@ def init_borrowing_data():
 
 if __name__ == '__main__':
     # init_reader_data()
-    # init_book_data()
-    init_borrowing_data()
+    init_book_data()
+    # init_borrowing_data()
