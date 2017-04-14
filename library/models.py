@@ -47,9 +47,8 @@ class Book(models.Model):
 
 class Borrowing(models.Model):
     reader = models.ForeignKey(Reader)
-    ISBN = models.ForeignKey(Book)
+    ISBN = models.ForeignKey(Book, on_delete=models.CASCADE)
     date_issued = models.DateField()
     date_due_to_returned = models.DateField()
     date_returned = models.DateField(null=True)
     amount_of_fine = models.FloatField(default=0.0)
-
