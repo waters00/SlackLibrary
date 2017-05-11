@@ -4,7 +4,7 @@
 }
 
 .myContainer {
-    margin-bottom: 200px;
+    margin-bottom: 150px;
 }
 
 .navbar-custom {
@@ -13,8 +13,9 @@
     border-radius: 0;
     margin-bottom: 0;
 }
-.profile-photo{
-    margin-right:auto;
+
+.profile-photo {
+    margin-right: auto;
 }
 
 .navbar-custom .navbar-nav > li > a {

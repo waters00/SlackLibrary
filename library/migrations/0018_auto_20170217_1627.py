@@ -22,6 +22,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='reader',
             name='photo',
-            field=models.ImageField(blank=True, upload_to=b'media/image/'),
+            field=models.ImageField(blank=True, upload_to=b'media/images/'),
         ),
     ]

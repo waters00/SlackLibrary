@@ -11,7 +11,7 @@ class Reader(models.Model):
     phone = models.IntegerField(unique=True)
     max_borrowing = models.IntegerField(default=5)
     balance = models.FloatField(default=0.0)
-    photo = models.ImageField(blank=True, upload_to='image/')
+    photo = models.ImageField(blank=True, upload_to='images/')
 
     STATUS_CHOICES = (
         (0, 'normal'),

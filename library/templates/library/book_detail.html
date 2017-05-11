@@ -7,7 +7,7 @@
 {% block content %}
 
     {% if state %}
-        <div class="col-lg-4 col-md-offset-4">
+        <div class="col-md-4 col-md-offset-4">
             <div class="alert alert-warning">
                 <a href="/login" class="close" data-dismiss="alert">&times;</a>
                 {% if state == 'no_user' %}
@@ -22,7 +22,7 @@
     {% endif %}
 
     {% if book.quantity == 0 %}
-        <div class="col-lg-4 col-md-offset-4">
+        <div class="col-md-4 col-md-offset-4">
             <div class="alert alert-warning">
                 <a href="/search/" class="close" data-dismiss="alert">&times;</a>
                     <h2> 对不起，此书已全部借出</h2>
@@ -40,7 +40,7 @@
                         <img src="{{ book.cover }}" alt="暂无图片">
                     </div>
                     <br><br><br>
-                    <div class="col-lg-5">
+                    <div class="col-md-5">
                         {% if book.quantity > 1 %}
                             <button class="btn btn-primary btn-lg"
                                     onclick="location.href='detail'+'?ISBN={{ book.ISBN }}&action=borrow';">借阅
