@@ -257,7 +257,7 @@ def book_detail(request):
                 reader.save()
 
                 bk = Book.objects.get(pk=ISBN)
-                bk.quantity-=1
+                bk.quantity -= 1
                 bk.save()
 
                 issued = datetime.date.today()
@@ -280,6 +280,38 @@ def book_detail(request):
         'book': book,
     }
     return render(request, 'library/book_detail.html', context)
+
+
+def statistics(request):
+    borrowing = Borrowing.objects.all()
+    readerInfo = {}
+    for r in borrowing:
+        if r.reader.name not in readerInfo:
+            readerInfo[r.reader.name] = 1
+        else:
+            readerInfo[r.reader.name] += 1
+
+    bookInfo = {}
+    for r in borrowing:
+        if r.ISBN.title not in bookInfo:
+            bookInfo[r.ISBN.title] = 1
+        else:
+            bookInfo[r.ISBN.title] += 1
+
+    readerData = list(sorted(readerInfo, key=readerInfo.__getitem__, reverse=True))[0:10]
+    bookData = list(sorted(bookInfo, key=bookInfo.__getitem__, reverse=True))[0:5]
+
+    readerAmountData = [readerInfo[x] for x in readerData]
+
+    bookAmountData = [bookInfo[x] for x in bookData]
+
+    context = {
+        'readerData': readerData,
+        'readerAmountData': readerAmountData,
+        'bookData': bookData,
+        'bookAmountData': bookAmountData,
+    }
+    return render(request, 'library/statistics.html', context)
 
 
 def about(request):

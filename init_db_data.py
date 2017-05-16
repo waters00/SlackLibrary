@@ -10,6 +10,7 @@ import django
 django.setup()
 
 import json
+import argparse
 import random
 import datetime
 import os.path as op
@@ -34,7 +35,7 @@ def init_reader_data(amount=50):
 
 
 def init_book_data():
-    with open(op.join('DoubanBookSpider', 'books.json'), 'r') as f:
+    with open('books.json', 'r') as f:
         books = json.loads(f.read())
 
     for b in books:
@@ -49,27 +50,56 @@ def init_book_data():
 
 def init_borrowing_data(amount=50):
     for i in range(amount):
-        try:
-            reader = Reader.objects.get(pk=random.randint(1, 50))
-        except Reader.DoesNotExist:
-            pass
+        reader = random.choice(Reader.objects.all())
         isbn = random.choice(Book.objects.all())
         issued = datetime.date.today() + datetime.timedelta(random.randint(1, 30))
         due_to_returned = issued + datetime.timedelta(30)
+        date_returned = issued + datetime.timedelta(random.randint(1, 40))
+        returned_flag = True
 
-        if reader.max_borrowing > 0:
+        if random.randint(1, 100) % 2 == 0:
+            returned_flag = False
+
+        if returned_flag:
+            if (date_returned - issued).days > 30:
+                fine = ((date_returned - issued).days - 30) * 0.1
+            else:
+                fine = 0
+
             b = Borrowing.objects.create(
                 reader=reader,
                 ISBN=isbn,
                 date_issued=issued,
-                date_due_to_returned=due_to_returned)
-
-            reader.max_borrowing -= 1
-            reader.save()
+                date_due_to_returned=due_to_returned,
+                date_returned=date_returned,
+                amount_of_fine=fine,
+            )
             b.save()
+        else:
+
+            if reader.max_borrowing > 0 and isbn.quantity > 0:
+                b = Borrowing.objects.create(
+                    reader=reader,
+                    ISBN=isbn,
+                    date_issued=issued,
+                    date_due_to_returned=due_to_returned
+                )
+
+                reader.max_borrowing -= 1
+                isbn.quantity -= 1
+                reader.save()
+                isbn.save()
+                b.save()
 
 
 if __name__ == '__main__':
-    init_reader_data()
-    init_book_data()
-    init_borrowing_data()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("data", help=u"你要生成的数据")
+    args = parser.parse_args()
+
+    if args.data == 'all':
+        init_reader_data()
+        init_book_data()
+        init_borrowing_data()
+    else:
+        init_borrowing_data()
