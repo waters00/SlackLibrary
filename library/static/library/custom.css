@@ -14,6 +14,10 @@
     margin-bottom: 0;
 }
 
+.footer {
+    height: 30px;
+}
+
 .profile-photo {
     margin-right: auto;
 }

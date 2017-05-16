@@ -4,7 +4,7 @@ A library management system written using Django.
 
 ### 如何使用
 
-确保安装依赖，Python2.7
+确保安装依赖，Python3.6
 ```
 pip install -r requirements.txt
 ```

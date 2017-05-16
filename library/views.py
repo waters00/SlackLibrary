@@ -12,8 +12,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import json
 
-from models import Book, Reader, User, Borrowing
-from forms import SearchForm, LoginForm, RegisterForm, ResetPasswordForm
+from library.models import Book, Reader, User, Borrowing
+from library.forms import SearchForm, LoginForm, RegisterForm, ResetPasswordForm
 
 
 def index(request):
@@ -235,7 +235,7 @@ def book_search(request):
 
 def book_detail(request):
     ISBN = request.GET.get('ISBN', None)
-    print ISBN
+    print(ISBN)
     if not ISBN:
         return HttpResponse('there is no such an ISBN')
     try:
