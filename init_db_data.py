@@ -13,6 +13,7 @@ import json
 import argparse
 import random
 import datetime
+import codecs
 import os.path as op
 from library.models import Book, Reader, Borrowing
 from django.contrib.auth.models import User
@@ -35,11 +36,12 @@ def init_reader_data(amount=50):
 
 
 def init_book_data():
-    with open('books.json', 'r') as f:
-        books = json.loads(f.read())
+    with codecs.open('books.json', 'r', 'utf-8') as f:
+        books = [json.loads(l) for l in f.readlines()]
 
     for b in books:
-        if b['description']:
+        if 'description' in b and b['description']:
+            print(b)
             B = Book.objects.get_or_create(ISBN=b['ISBN'], title=b['title'], author=b['author'], press=b['press'])[0]
             B.description = b['description']
             B.price = b['price']
@@ -93,6 +95,8 @@ def init_borrowing_data(amount=50):
 
 
 if __name__ == '__main__':
+    init_book_data()
+
     parser = argparse.ArgumentParser()
     parser.add_argument("data", help=u"你要生成的数据")
     args = parser.parse_args()
@@ -100,6 +104,9 @@ if __name__ == '__main__':
     if args.data == 'all':
         init_reader_data()
         init_book_data()
-        init_borrowing_data()
-    else:
+    elif args.data == 'book':
+        init_book_data()
+    elif args.data == 'reader':
+        init_reader_data()
+    elif args.data == 'borrowing':
         init_borrowing_data()
