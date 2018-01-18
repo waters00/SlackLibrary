@@ -11,8 +11,22 @@ pip install -r requirements.txt
 
 然后执行即可
 ```
-python manage.py runserver 8000
+python3 manage.py runserver 8000
 ```
+
+
+主页：
+http://localhost:8000/
+
+后台页面:
+http://localhost:8000/admin/
+
+用户名：admin
+
+密码 ：admin
+
+
+
 主页：
 ![index][0]
 
@@ -26,6 +40,7 @@ python manage.py runserver 8000
 ![][3]
 
 用户界面
+
 ![][4]
 
 [0]:http://upload-images.jianshu.io/upload_images/3645027-807d0c6c55b0e878.png
