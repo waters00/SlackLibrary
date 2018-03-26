@@ -6,6 +6,10 @@ from django.contrib.auth.models import User
 
 
 class Reader(models.Model):
+    class Meta:
+        verbose_name = '读者'
+        verbose_name_plural = '读者'
+
     user = models.OneToOneField(User)
     name = models.CharField(max_length=16, unique=True)
     phone = models.IntegerField(unique=True)
@@ -25,11 +29,12 @@ class Reader(models.Model):
     def __str__(self):
         return self.name
 
-    def __unicode__(self):
-        return unicode(self.__str__())
-
 
 class Book(models.Model):
+    class Meta:
+        verbose_name = '图书'
+        verbose_name_plural = '图书'
+
     ISBN = models.CharField(max_length=13, primary_key=True)
     title = models.CharField(max_length=128)
     author = models.CharField(max_length=32)
@@ -44,11 +49,21 @@ class Book(models.Model):
     location = models.CharField(max_length=64, default=u'图书馆1楼')
     quantity = models.IntegerField(default=1)
 
+    def __str__(self):
+        return self.title + self.author
+
 
 class Borrowing(models.Model):
+    class Meta:
+        verbose_name = '借阅'
+        verbose_name_plural = '借阅'
+
     reader = models.ForeignKey(Reader)
     ISBN = models.ForeignKey(Book, on_delete=models.CASCADE)
     date_issued = models.DateField()
     date_due_to_returned = models.DateField()
     date_returned = models.DateField(null=True)
     amount_of_fine = models.FloatField(default=0.0)
+
+    def __str__(self):
+        return '{} 借了 {}'.format(self.reader, self.ISBN)

@@ -37,7 +37,7 @@ def init_reader_data(amount=50):
 
 def init_book_data():
     with codecs.open('books.json', 'r', 'utf-8') as f:
-        books = [json.loads(l) for l in f.readlines()]
+        books = json.loads(f)
 
     for b in books:
         if 'description' in b and b['description']:

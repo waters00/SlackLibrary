@@ -4,9 +4,9 @@ A library management system written using Django.
 
 ### 如何使用
 
-确保安装依赖，Python3.6
+确保安装依赖(python3)
 ```
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 然后执行即可
@@ -21,10 +21,11 @@ http://localhost:8000/
 后台页面:
 http://localhost:8000/admin/
 
-用户名：admin
+初始化用户名密码:
 
-密码 ：admin
-
+```shell
+python3 manage.py create_admin_account --username admin --password admin
+```
 
 
 主页：
@@ -39,11 +40,17 @@ http://localhost:8000/admin/
 
 ![][3]
 
-用户界面
+
+管理界面
 
 ![][4]
+
+用户界面
+
+![][5]
 
 [0]:http://upload-images.jianshu.io/upload_images/3645027-807d0c6c55b0e878.png
 [1]:http://opsfsk07z.bkt.clouddn.com/search_page.png
 [3]:http://opsfsk07z.bkt.clouddn.com/reader_info.png
-[4]:http://opsfsk07z.bkt.clouddn.com/profile_1.png
+[4]:http://opsfsk07z.bkt.clouddn.com/admin.png
+[5]:http://opsfsk07z.bkt.clouddn.com/profile_1.png
