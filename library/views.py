@@ -62,7 +62,7 @@ def user_register(request):
     if request.method == 'POST':
         registerForm = RegisterForm(request.POST, request.FILES)
         password = request.POST.get('password', '')
-        repeat_password = request.POST.get('repeat_password', '')
+        repeat_password = request.POST.get('re_password', '')
         if password == '' or repeat_password == '':
             state = 'empty'
         elif password != repeat_password:
