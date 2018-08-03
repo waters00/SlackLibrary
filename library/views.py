@@ -74,6 +74,7 @@ def user_register(request):
                 state = 'user_exist'
             else:
                 new_user = User.objects.create(username=username)
+                new_user.set_password(password)
                 new_user.save()
                 new_reader = Reader.objects.create(user=new_user, name=name, phone=int(username))
                 new_reader.photo = request.FILES['photo']
