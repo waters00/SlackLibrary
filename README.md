@@ -53,4 +53,4 @@ python3 manage.py create_admin_account --username admin --password admin
 [1]:http://opsfsk07z.bkt.clouddn.com/search_page.png
 [3]:http://opsfsk07z.bkt.clouddn.com/reader_info.png
 [4]:http://opsfsk07z.bkt.clouddn.com/admin.png
-[5]:http://opsfsk07z.bkt.clouddn.com/profile_1.png
+[5]: http://oh6k349gl.bkt.clouddn.com/slack_profile.jpg
