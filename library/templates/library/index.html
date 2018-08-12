@@ -6,7 +6,7 @@
 {% block content %}
 
     <div class="container myContainer">
-        <form action="/search" method="GET">
+        <form action="/search/" method="GET"
             <div class="row col-lg-7 col-lg-offset-3">
 
                 {% for radio in searchForm.search_by %}
@@ -14,7 +14,6 @@
                         {{ radio }}
                     </div>
                 {% endfor %}
-
                 <div class="input-group">
                     {{ searchForm.keyword }}
                     <span class="input-group-btn">

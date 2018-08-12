@@ -9,7 +9,7 @@
 
         <div class="container">
             <form action="/search" method="GET">
-                <div class="row col-md-7 col-md-offset-3">
+                <div class="row col-md-7 col-md-offset-1">
 
                     {% for radio in searchForm.search_by %}
                         <div class="radio-inline">
@@ -27,7 +27,7 @@
             </form>
         </div>
 
-        <h2 id='hint' class="label-success col-md-5 col-md-offset-4">以下是{{ search_by }}匹配'{{ keyword }}'的结果</h2>
+        <h2 id='hint' class="label-success col-md-5 col-md-offset-2">以下是{{ search_by }}匹配'{{ keyword }}'的结果</h2>
         <table class="table table-hover">
             <thead>
             <th>#</th>
@@ -45,7 +45,8 @@
                     <td>
                         <a href="/book/detail?ISBN={{ book.ISBN }}">
                             <img class="img-responsive"
-                                 src="{{ book.cover }}" width="90"
+                                 src="/media/{{ book.cover }}"
+                                 width="90"
                                  height="128"
                                  alt="{{ book.title }}">
                         </a>

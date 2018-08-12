@@ -24,7 +24,7 @@ def index(request):
 
 
 def user_login(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return HttpResponseRedirect('/')
 
     state = None
@@ -53,7 +53,7 @@ def user_login(request):
 
 
 def user_register(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return HttpResponseRedirect('/')
 
     registerForm = RegisterForm()
@@ -131,7 +131,7 @@ def user_logout(request):
 
 
 def profile(request):
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return HttpResponseRedirect('/login')
 
     id = request.user.id
@@ -151,7 +151,7 @@ def profile(request):
 
 
 def reader_operation(request):
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return HttpResponseRedirect('/login')
 
     action = request.GET.get('action', None)
@@ -249,7 +249,7 @@ def book_detail(request):
 
     if action == 'borrow':
 
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             state = 'no_user'
         else:
             reader = Reader.objects.get(user_id=request.user.id)

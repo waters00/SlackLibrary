@@ -3,7 +3,7 @@
 
 import os
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Slackers.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'slack_management.settings')
 
 import django
 
@@ -31,23 +31,26 @@ def init_reader_data(amount=50):
 
         r = Reader.objects.get_or_create(user=u, name=fake.name(), phone=int(u.username))[0]
         r.balance = round(random.random() * 100, 2)
-        r.photo = 'images/' + str(r.user_id) + '.jpg'
+        r.photo = str(r.user_id) + '.jpg'
         r.save()
 
 
 def init_book_data():
     with codecs.open('books.json', 'r', 'utf-8') as f:
-        books = json.loads(f)
+        books = json.load(f)
 
     for b in books:
-        if 'description' in b and b['description']:
+        if 'content_description' in b and b['content_description']:
             print(b)
-            B = Book.objects.get_or_create(ISBN=b['ISBN'], title=b['title'], author=b['author'], press=b['press'])[0]
-            B.description = b['description']
-            B.price = b['price']
-            B.cover = b['cover']
-            B.quantity = random.randint(0, 7)
-            B.save()
+            try:
+                B = Book.objects.get_or_create(ISBN=b['ISBN'], title=b['name'], author=b['author'], press=b['press'])[0]
+                B.description = b['content_description']
+                B.price = b['price']
+                B.cover = b['cover']
+                B.quantity = random.randint(0, 7)
+                B.save()
+            except KeyError:
+                continue
 
 
 def init_borrowing_data(amount=50):
@@ -104,6 +107,7 @@ if __name__ == '__main__':
     if args.data == 'all':
         init_reader_data()
         init_book_data()
+        init_borrowing_data()
     elif args.data == 'book':
         init_book_data()
     elif args.data == 'reader':
