@@ -41,7 +41,7 @@
                     </div>
                     <br><br><br>
                     <div class="col-md-5">
-                        {% if book.quantity > 1 %}
+                        {% if book.quantity > 0 %}
                             <button class="btn btn-primary btn-lg"
                                     onclick="location.href='detail'+'?ISBN={{ book.ISBN }}&action=borrow';">借阅
                             </button>
