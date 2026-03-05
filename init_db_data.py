@@ -18,9 +18,9 @@ import os.path as op
 from library.models import Book, Reader, Borrowing
 from django.contrib.auth.models import User
 
-from faker import Factory
+from faker import Faker
 
-fake = Factory.create('zh_CN')
+fake = Faker('zh_CN')
 
 
 def init_reader_data(amount=50):
