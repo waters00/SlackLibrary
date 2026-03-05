@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
-from django.db import IntegrityError
 
 
 class Command(BaseCommand):
@@ -16,11 +15,16 @@ class Command(BaseCommand):
         email = options['email']
         password = options['password']
 
-        try:
-            User.objects.create_superuser(username, email, password)
-        except IntegrityError:
-            user = User.objects.get(username=username)
-            user.set_password(password)
-            user.save()
+        user, created = User.objects.get_or_create(
+            username=username,
+            defaults={'is_staff': True, 'is_superuser': True},
+        )
+        if not created:
+            user.is_staff = True
+            user.is_superuser = True
+        if email:
+            user.email = email
+        user.set_password(password)
+        user.save()
 
         self.stdout.write(self.style.SUCCESS("成功初始化管理员账户"))
