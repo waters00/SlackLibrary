@@ -1,4 +1,4 @@
-Django==2.1
-django-crispy-forms==1.6.1
-Pillow==5.2.0
-Faker==0.7.11
+Django==5.2
+django-crispy-forms==2.6
+Pillow==12.1.1
+Faker==40.8.0
